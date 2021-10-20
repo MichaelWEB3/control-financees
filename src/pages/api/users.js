@@ -23,6 +23,7 @@ export default async function  users(req, resp) {
             total_conta,
             despesas:[],
             total_gastos,
+            
 
         })
         resp.status(200).json({certo:"inserido no bd com sucesso"})
