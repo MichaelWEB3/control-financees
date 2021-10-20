@@ -3,7 +3,7 @@ import useDados from "../dados/userHooke";
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useEffect, useState } from "react";
 import { IconeGoogle, IconEntrar, IconLupa, IconSair } from "../components/icons";
-
+import { Chart } from "react-google-charts";
 
 
 
@@ -13,6 +13,8 @@ export default function Perfil(props) {
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()
 
+
+
     useEffect(() => {
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
@@ -21,20 +23,19 @@ export default function Perfil(props) {
         })
     }, [])
 
-    const data = [
-        { name: 'Page A', pv: 2400, amt: 2400 },
-        { name: 'Page B', pv: 1398, amt: 2210 },
-        { name: 'Page C', pv: 9800, amt: 2290 },
-        { name: 'Page D', pv: 3908, amt: 2000 },
-        { name: 'Page E', pv: 4800, amt: 2181 },
-        { name: 'Page F', pv: 3800, amt: 2500 },
-        { name: 'Page G', pv: 4300, amt: 2100 },
-    ];
 
-    const colors = [
-        'red',
-         'blue'
-    ]
+
+    const [options, setOptions] = useState({
+        title: 'Gráfico  Transçoes'
+    })
+    const [data, setData] = useState([
+        ['Transçoes', 'Transçoes'],
+        ['Total', 20],
+        ['saidas', 50],
+        ['entradas', 80],
+
+    ])
+
 
     return (
         <Layout perfil={true} financas={false}>
@@ -71,15 +72,30 @@ export default function Perfil(props) {
                     <div>
                         <span className="text-xl text-red-800">{IconSair} R$7,00</span></div>
                 </div>
-                <div className="flex flex-col    sm:flex-row ">
-                    <div className="flex ">
+                <div className="flex flex-col   p-5  lg:flex-row ">
+                    <div className="flex  p-2 m-2 ">
+                        <Chart
+                            width={'400px'}
+                            height={'300px'}
+                            chartType="PieChart"
+                            data={data}
+                            options={options}
+                        />
 
-                      
-                      
+
                     </div>
 
-                    <div>
-
+                    <div className=" p-2 m-2">
+                        <Chart
+                            width={'400px'}
+                            height={'300px'}
+                            chartType="Bar"
+                            loader={<div>Loading Chart</div>}
+                            data={data}
+                            options={options}
+                            // For tests
+                            rootProps={{ 'data-testid': '2' }}
+                        />
 
                     </div>
 
