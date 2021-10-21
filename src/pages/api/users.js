@@ -20,9 +20,9 @@ export default async function  users(req, resp) {
             email,
             name,
             photo,
-            total_conta,
+            total_conta:0,
             despesas:[],
-            total_gastos,
+            total_gastos:0,
             
 
         })

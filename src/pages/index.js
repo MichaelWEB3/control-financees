@@ -38,7 +38,7 @@ export default function Home() {
       setverificado(true)
     }
   }
-
+  
   async function authentic() {
     const data = await axios.post(`http://localhost:3000/api/users`, {
       nome: nome,

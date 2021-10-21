@@ -13,12 +13,15 @@ export default function Perfil(props) {
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()
 
+    
+    const [entrada, setentrada] = useState(0)
+    const [tirar, settirar] = useState(0)
 
 
     useEffect(() => {
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
-            console.log(resp)
+          
             setdadosOnline(resp)
         })
     }, [])
@@ -61,7 +64,7 @@ export default function Perfil(props) {
                 <div className="w-8/12 h-2/6 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center">
                     <div className="flex flex-col">
                         <span className="text-sm text-gray-600">Saldo  </span>
-                        <span className="text-xl text-gray-400">1500,00  </span>
+                        <span className="text-xl text-gray-400">R${dadosOnline?.total_conta}  </span>
                     </div>
 
                     <div>
