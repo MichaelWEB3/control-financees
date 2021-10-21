@@ -11,9 +11,10 @@ export default function Financas(props) {
     const dadosUsuario = useDados()
 
     const [saldo, setSaldo] = useState(dadosOnline?.total_conta || 0)
-    const [entrada, setentrada] = useState(null)
-    const [tirar, settirar] = useState(0)
-    const [tirarDescr, settirarDescr] = useState(0)
+    const [entrada, setentrada] = useState('')
+
+    const [tirar, settirar] = useState('')
+    const [tirarDescr, settirarDescr] = useState('')
 
 
 
@@ -22,30 +23,44 @@ export default function Financas(props) {
     useEffect(() => {
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
-          
+
             setdadosOnline(resp)
         })
 
     }, [])
 
 
-   
+    const Data = new Date()
+    const dataAtual = Data.toLocaleDateString('pt-br')
+
     async function add() {
         const data = await axios.post(`http://localhost:3000/api/addsaldo`, {
-            entrada:parseFloat(entrada),
-            id:dadosOnline?._id
+            entrada: parseFloat(entrada),
+            id: dadosOnline?._id,
+            entradas: parseFloat(entrada),
+            ultimaDataEntrada: dataAtual
         })
-        const date =  dadosUsuario.sessao(session?.user.email)
+        const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
-          
+
             setdadosOnline(resp)
         })
-      
-    
-      }
 
-    function remove() {
 
+    }
+
+    async function remove() {
+        const data = await axios.post(`http://localhost:3000/api/removerSaldo`, {
+            saido: parseFloat(tirar),
+            despesas: { tirarDescr, tirar: parseFloat(tirar) },
+            id: dadosOnline?._id,
+            ultimaDataSaida: dataAtual
+        })
+        const date = dadosUsuario.sessao(session?.user.email)
+        date.then(resp => {
+
+            setdadosOnline(resp)
+        })
     }
 
     return (
@@ -68,9 +83,9 @@ export default function Financas(props) {
 
                     <div className="flex flex-col  w-full justify-center items-center ">
                         <span className="text-xl text-red-400 m-1">Pagar conta</span>
-                        <span><input type="text" className="w-25 border-1 border-solid bg-gray-500 text-white border-black p-2 rounded-xl m-1" placeholder="descrição"></input></span>
-                        <span><input type="number" className="w-25 border-1 border-solid bg-gray-500 text-white border-black p-2 rounded-xl m-1" placeholder="00,00"></input></span>
-                        <button className="bg-red-400 w-40 text-white hover:bg-red-600 rounded-full ">Adicionar</button>
+                        <span><input type="text" value={tirarDescr} onChange={(e) => settirarDescr(e.target.value)} className="w-25 border-1 border-solid bg-gray-500 text-white border-black p-2 rounded-xl m-1" placeholder="descrição"></input></span>
+                        <span><input type="number" value={tirar} onChange={(e) => settirar(e.target.value)} className="w-25 border-1 border-solid bg-gray-500 text-white border-black p-2 rounded-xl m-1" placeholder="00,00"></input></span>
+                        <button className="bg-red-400 w-40 text-white hover:bg-red-600 rounded-full " onClick={() => remove()}>Adicionar</button>
                     </div>
 
                 </div>

@@ -5,7 +5,7 @@ import connect from "../../utils/database"
 
 export default async function  users(req, resp) {
     
-    const {name,email,photo, total_conta,despesas, total_gastos} = req.body
+    const {name,email,photo,idade} = req.body
 
     if (req.method == 'POST') {
        
@@ -21,9 +21,14 @@ export default async function  users(req, resp) {
             name,
             photo,
             total_conta:0,
+            ultima_entrada:0,
             despesas:[],
+            ultima_saida:0,
             total_gastos:0,
-            
+            idade,
+            entradas:[],
+            ultima_data:'',
+            ultima_data_saida:'',
 
         })
         resp.status(200).json({certo:"inserido no bd com sucesso"})

@@ -13,31 +13,65 @@ export default function Perfil(props) {
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()
 
-    
+
     const [entrada, setentrada] = useState(0)
     const [tirar, settirar] = useState(0)
+
+    const [total, setTotal] = useState(null)
+    const [totalEntrada, settotalEntrada] = useState(null)
+    const [totalSaida, settotalSaida] = useState(null)
+
+
+
+    //grafico
+    const [options, setOptions] = useState({
+        title: 'Gráfico  Transçoes'
+    })
+    const [data, setData] = useState(null)
+
+
 
 
     useEffect(() => {
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
-          
+
             setdadosOnline(resp)
         })
+
     }, [])
 
 
+    useEffect(() => {
 
-    const [options, setOptions] = useState({
-        title: 'Gráfico  Transçoes'
-    })
-    const [data, setData] = useState([
-        ['Transçoes', 'Transçoes'],
-        ['Total', 20],
-        ['saidas', 50],
-        ['entradas', 80],
 
-    ])
+        setTotal(dadosOnline?.total_conta)
+
+        let acomulador = 0
+        for (let i = 0; i < dadosOnline?.entradas?.length; i++) {
+            acomulador = acomulador + dadosOnline?.entradas[i]
+        }
+        let acumuladoSaida = 0
+        dadosOnline?.despesas?.map((valor, index) => {
+            acumuladoSaida = acumuladoSaida + valor.tirar
+        })
+
+        settotalEntrada(acomulador)
+        let totalTran = acomulador + acumuladoSaida
+
+        setData([
+            ['Transaçoes', 'Transaçoes'],
+            ['Total', totalTran],
+            ['saidas', acumuladoSaida],
+            ['entradas', acomulador],
+
+        ])
+
+    }, [dadosOnline])
+
+
+
+
 
 
     return (
@@ -61,24 +95,37 @@ export default function Perfil(props) {
 
                     </div>
                 </div>
-                <div className="w-8/12 h-2/6 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center">
-                    <div className="flex flex-col">
+
+
+                <div className="w-9/12 h-2/6 p-2 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center">
+                    <img src="carteiraGif.gif" className="hidden md:flex flex w-40"/>
+                    <div className=" flex flex-col">
+
                         <span className="text-sm text-gray-600">Saldo  </span>
-                        <span className="text-xl text-gray-400">R${dadosOnline?.total_conta}  </span>
+                        <span className="text-sm sm:text-xl  text-gray-400">R${dadosOnline?.total_conta}  </span>
                     </div>
 
-                    <div>
-                        <span className="text-xl text-green-800">{IconEntrar} R$7,00</span>
+                    <div className="flex flex-col">
+                        <span className="text-sm sm:text-xl  text-green-800">{IconEntrar}</span>
+
+                        <span className="text-sm sm:text-xl  text-green-800"> R${dadosOnline?.ultima_entrada}</span>
+                        <span className="text-sm text-gray-600">Data: {dadosOnline?.ultima_data}  </span>
+
 
                     </div>
 
-                    <div>
-                        <span className="text-xl text-red-800">{IconSair} R$7,00</span></div>
+                    <div className="flex flex-col">
+                        <span className="text-sm sm:text-xl  text-red-800">{IconSair} R${dadosOnline?.ultima_saida}</span>
+                        <span className="text-sm text-gray-600">Data: {dadosOnline?.ultima_data}  </span>
+                    </div>
+
                 </div>
-                <div className="flex flex-col   p-5  lg:flex-row ">
-                    <div className="flex  p-2 m-2 ">
+
+                
+                <div className="flex flex-col     lg:flex-row ">
+                    <div className="flex m-2  ">
                         <Chart
-                            width={'400px'}
+                            width={'10%'}
                             height={'300px'}
                             chartType="PieChart"
                             data={data}
@@ -88,9 +135,9 @@ export default function Perfil(props) {
 
                     </div>
 
-                    <div className=" p-2 m-2">
+                    <div className=" m-2">
                         <Chart
-                            width={'400px'}
+                            width={'10%'}
                             height={'300px'}
                             chartType="Bar"
                             loader={<div>Loading Chart</div>}
@@ -98,6 +145,7 @@ export default function Perfil(props) {
                             options={options}
                             // For tests
                             rootProps={{ 'data-testid': '2' }}
+
                         />
 
                     </div>

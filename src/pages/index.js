@@ -45,7 +45,8 @@ export default function Home() {
       name: session.user.name,
       email: session.user.email,
       photo: session.user.image,
-      idade
+      idade,
+      
     })
 
     router.push('/perfil')
