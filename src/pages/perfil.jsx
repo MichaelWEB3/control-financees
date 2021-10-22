@@ -97,7 +97,7 @@ export default function Perfil(props) {
                 </div>
 
 
-                <div className="w-9/12 h-2/6 p-2 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center">
+                <div className="w-12/12  md:w-7/12 h-2/6 p-2 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center">
                     <img src="carteiraGif.gif" className="hidden md:flex flex w-40"/>
                     <div className=" flex flex-col">
 
@@ -125,7 +125,7 @@ export default function Perfil(props) {
                 <div className="flex flex-col     lg:flex-row ">
                     <div className="flex m-2  ">
                         <Chart
-                            width={'10%'}
+                            width={'350px'}
                             height={'300px'}
                             chartType="PieChart"
                             data={data}
@@ -137,7 +137,7 @@ export default function Perfil(props) {
 
                     <div className=" m-2">
                         <Chart
-                            width={'10%'}
+                            width={'350px'}
                             height={'300px'}
                             chartType="Bar"
                             loader={<div>Loading Chart</div>}
