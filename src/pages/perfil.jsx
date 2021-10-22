@@ -76,12 +76,12 @@ export default function Perfil(props) {
 
     return (
         <Layout perfil={true} financas={false}>
-            <div className="flex flex-col  w-screen h-screen">
+            <div className="flex flex-col  w-full h-full ">
 
-                <div className="flex flex-row  w-full  items-center justify-around  ">
+                <div className="flex flex-row  w-full  items-center justify-around   ">
 
                     <div className="">
-                        <h1 className="invisible sm:visible text-gray-600 text-2xl" >DashBoard</h1>
+                        <h1 className="invisible sm:visible text-gray-600 text-2xl " >DashBoard</h1>
                     </div>
 
                     <div className="" >
@@ -90,14 +90,14 @@ export default function Perfil(props) {
 
                     </div>
                     <div className="w-20">
-
+                       
                         {dadosOnline?.photo ? <img className="rounded-full" src={`${dadosOnline?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}
 
                     </div>
                 </div>
 
-
-                <div className="w-12/12  md:w-7/12 h-2/6 p-2 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center">
+        
+                <div className="w-12/12  md:w-11/12 h-2/6 p-2 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center ">
                     <img src="carteiraGif.gif" className="hidden md:flex flex w-40"/>
                     <div className=" flex flex-col">
 
