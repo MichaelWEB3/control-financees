@@ -14,7 +14,7 @@ export default async function  users(req, resp) {
         const {db} = await connect()
 
         const response = await db.collection('users').findOne({email})
-        console.log(response)
+       
         resp.status(200).json({response})
 
     } else {

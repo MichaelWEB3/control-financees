@@ -4,6 +4,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { useEffect, useState } from "react";
 import { IconeGoogle, IconEntrar, IconLupa, IconSair } from "../components/icons";
 import { Chart } from "react-google-charts";
+import Seach from "../components/layout/seach";
 
 
 
@@ -90,7 +91,7 @@ export default function Perfil(props) {
 
                     <div className="" >
 
-                        <span className=" flex h-10 rounded-full m-2    bg-green-50 p-2">  <input type="text" placeholder="Seacher" className="form-input p-2 text-gray-700 rounded-full bg-green-50 border-solid border-1" /> <span className="hidden sm:flex">{IconLupa}</span> </span>
+                       <Seach></Seach>
 
                     </div>
                     <div className="w-20 sm:hidden">
@@ -136,7 +137,7 @@ export default function Perfil(props) {
 
 
                         <div className="flex flex-col  w-full justify-center items-center m-5">
-                        <button className="bg-green-400 w-20 p-1 text-white hover:bg-green-600 rounded-full " onClick={() => mostraEnt ? setmostraEnt(false):setmostraEnt(true)} >Entrada</button>
+                        <button className="bg-green-400 w-20 p-1 text-white hover:bg-green-600 rounded-full  flex" onClick={() => mostraEnt ? setmostraEnt(false):setmostraEnt(true)} >Entrada {mostraEnt? IconEntrar:IconSair}</button>
                             {mostraEnt&& dadosOnline?.entradas?.map((e) =>
                                 <ul>
                                     <li className="text-green-600">R$ {e}</li>
@@ -144,7 +145,7 @@ export default function Perfil(props) {
                         </div>
 
                         <div className="flex flex-col  w-full justify-center items-center m-5 ">
-                        <button className="bg-red-400 w-20 p-1 text-white hover:bg-red-600 rounded-full " onClick={() => mostraDe ? setmostraDe(false):setmostraDe(true)}>Saidas</button>
+                        <button className="bg-red-400 w-20 p-2 text-white hover:bg-red-600 rounded-full flex " onClick={() => mostraDe ? setmostraDe(false):setmostraDe(true)}>Saidas {mostraDe? IconEntrar:IconSair}</button>
                             {mostraDe&& dadosOnline?.despesas?.map((e) =>
                                 <ul>
                                     <li className="text-gray-600"><span className="font-bold">{e.tirarDescr}</span> -  <span className="text-red-600">R${e.tirar}</span></li>

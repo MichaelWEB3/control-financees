@@ -15,7 +15,7 @@ export default function Lateral(props) {
         date.then(resp => {
 
             setdadosOnline(resp)
-            console.log(resp)
+          
         })
 
 
@@ -33,7 +33,7 @@ export default function Lateral(props) {
                         <span className="m-1">Ola,</span> <h1 className="text-gray-700 bold  font-bold 	">{dadosOnline?.nome}, {dadosOnline?.idade} anos</h1>
                     </div>
                 </div>
-                
+
             </div>
 
 
