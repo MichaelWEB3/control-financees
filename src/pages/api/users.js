@@ -5,7 +5,7 @@ import connect from "../../utils/database"
 
 export default async function  users(req, resp) {
     
-    const {name,email,photo,idade} = req.body
+    const {name,email,photo,idade,nome} = req.body
 
     if (req.method == 'POST') {
        
@@ -20,6 +20,7 @@ export default async function  users(req, resp) {
             email,
             name,
             photo,
+            nome,
             total_conta:0,
             ultima_entrada:0,
             despesas:[],

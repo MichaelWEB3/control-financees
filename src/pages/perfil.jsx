@@ -30,6 +30,10 @@ export default function Perfil(props) {
     const [data, setData] = useState(null)
 
 
+    const [mostraDe, setmostraDe] = useState(false)
+    const [mostraEnt, setmostraEnt] = useState(false)
+
+
 
 
     useEffect(() => {
@@ -49,6 +53,7 @@ export default function Perfil(props) {
 
         let acomulador = 0
         for (let i = 0; i < dadosOnline?.entradas?.length; i++) {
+
             acomulador = acomulador + dadosOnline?.entradas[i]
         }
         let acumuladoSaida = 0
@@ -71,8 +76,7 @@ export default function Perfil(props) {
 
 
 
-
-
+  
 
     return (
         <Layout perfil={true} financas={false}>
@@ -89,20 +93,20 @@ export default function Perfil(props) {
                         <span className=" flex h-10 rounded-full m-2    bg-green-50 p-2">  <input type="text" placeholder="Seacher" className="form-input p-2 text-gray-700 rounded-full bg-green-50 border-solid border-1" /> <span className="hidden sm:flex">{IconLupa}</span> </span>
 
                     </div>
-                    <div className="w-20">
-                       
-                        {dadosOnline?.photo ? <img className="rounded-full" src={`${dadosOnline?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}
+                    <div className="w-20 sm:hidden">
+
+                        {dadosOnline?.photo ? <img className="rounded-full m-2" src={`${dadosOnline?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}
 
                     </div>
                 </div>
 
-        
+
                 <div className="w-12/12  md:w-11/12 h-2/6 p-2 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center ">
-                    <img src="carteiraGif.gif" className="hidden md:flex flex w-40"/>
+                    <img src="carteiraGif.gif" className="hidden md:flex flex w-40" />
                     <div className=" flex flex-col">
 
                         <span className="text-sm text-gray-600">Saldo  </span>
-                        <span className="text-sm sm:text-xl  text-gray-400">R${dadosOnline?.total_conta}  </span>
+                        <span className="text-sm sm:text-xl  text-gray-400 font-bold">R${dadosOnline?.total_conta}  </span>
                     </div>
 
                     <div className="flex flex-col">
@@ -121,7 +125,36 @@ export default function Perfil(props) {
 
                 </div>
 
-                
+
+
+
+                <div className="w-12/12  md:w-11/12 h-2/6 m-5 p-5 bg-green-50   flex  justify-center items-col rounded-3xl  ">
+                    <h1 className="text-gray-600 text-xs">Lista de transações</h1>
+
+
+                    <div className=" w-full  flex flex-col sm:flex-col p-2 justify-center items-center ">
+
+
+                        <div className="flex flex-col  w-full justify-center items-center m-5">
+                        <button className="bg-green-400 w-20 p-1 text-white hover:bg-green-600 rounded-full " onClick={() => mostraEnt ? setmostraEnt(false):setmostraEnt(true)} >Entrada</button>
+                            {mostraEnt&& dadosOnline?.entradas?.map((e) =>
+                                <ul>
+                                    <li className="text-green-600">R$ {e}</li>
+                                </ul>)}
+                        </div>
+
+                        <div className="flex flex-col  w-full justify-center items-center m-5 ">
+                        <button className="bg-red-400 w-20 p-1 text-white hover:bg-red-600 rounded-full " onClick={() => mostraDe ? setmostraDe(false):setmostraDe(true)}>Saidas</button>
+                            {mostraDe&& dadosOnline?.despesas?.map((e) =>
+                                <ul>
+                                    <li className="text-gray-600"><span className="font-bold">{e.tirarDescr}</span> -  <span className="text-red-600">R${e.tirar}</span></li>
+                                </ul>)}
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <div className="flex flex-col     lg:flex-row ">
                     <div className="flex m-2  ">
                         <Chart
