@@ -48,7 +48,7 @@ export default function Seach(props) {
                     {pesquisados.map((resp) => 
                         <ul>
                             {console.log(resp)}
-                            <li key={resp._id} className="flex items-center">{resp?.photo ? <img className="rounded-full w-10 m-2" src={`${resp?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />} <a href="/perfil">{resp.nome}</a> </li>
+                            <li key={resp._id} className="flex items-center">{resp?.photo ? <img className="rounded-full w-10 m-2" src={`${resp?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />} <Link href={`/search/${resp.email}`}>{resp.nome}</Link> </li>
                         </ul>
                     )}
                 </div>
