@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { IconLogout, IconMenu } from "../icons"
+import { IconCoracao, IconLogout, IconMenu } from "../icons"
 import Link from 'next/link'
 import { useSession, signIn, signOut } from "next-auth/react"
 import router from "next/router"
@@ -15,7 +15,7 @@ export default function Lateral(props) {
         date.then(resp => {
 
             setdadosOnline(resp)
-          
+
         })
 
 
@@ -31,6 +31,22 @@ export default function Lateral(props) {
 
                         {dadosOnline?.photo ? <img className="rounded-full m-2" src={`${dadosOnline?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}
                         <span className="m-1">Ola,</span> <h1 className="text-gray-700 bold  font-bold 	">{dadosOnline?.nome}, {dadosOnline?.idade} anos</h1>
+                    </div>
+
+                </div>
+
+                <div className="flex flex-col p-5 m-2 ">
+                    <span className="text-sm text-gray-700 bold  font-bold flex"><span className="mr-5">Users favorites</span> <span className="text-red-600">{IconCoracao}</span> </span>
+                    <div className="flex flex-col p-2 m-2">
+                        <ul>
+                            {dadosOnline?.favs?.map((userfav, idex) => {
+                              return  <li key={userfav.id}>
+                                    <div className="flex flex-row  items-center"> {userfav?.photo ? <img className="rounded-full m-5 w-20" src={`${userfav?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />} <Link href={`/search/${userfav.email}`}><span className="text-gray-700 bold  font-bold mr-5 cursor-pointer">{userfav.nome  } </span></Link> <span className="text-red-600">{IconCoracao}</span> </div>
+                                </li>
+                            })}
+                        </ul>
+
+
                     </div>
                 </div>
 

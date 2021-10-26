@@ -106,7 +106,7 @@ export default function Perfil(props) {
                     <img src="carteiraGif.gif" className="hidden md:flex flex w-40" />
                     <div className=" flex flex-col">
 
-                        <span className="text-sm text-gray-600">Saldo  </span>
+                        <span className="text-sm text-gray-600">Balance  </span>
                         <span className="text-sm sm:text-xl  text-gray-400 font-bold">R${dadosOnline?.total_conta}  </span>
                     </div>
 
@@ -114,14 +114,14 @@ export default function Perfil(props) {
                         <span className="text-sm sm:text-xl  text-green-800">{IconEntrar}</span>
 
                         <span className="text-sm sm:text-xl  text-green-800"> R${dadosOnline?.ultima_entrada}</span>
-                        <span className="text-sm text-gray-600">Data: {dadosOnline?.ultima_data}  </span>
+                        <span className="text-sm text-gray-600">Date: {dadosOnline?.ultima_data}  </span>
 
 
                     </div>
 
                     <div className="flex flex-col">
                         <span className="text-sm sm:text-xl  text-red-800">{IconSair} R${dadosOnline?.ultima_saida}</span>
-                        <span className="text-sm text-gray-600">Data: {dadosOnline?.ultima_data}  </span>
+                        <span className="text-sm text-gray-600">Date: {dadosOnline?.ultima_data}  </span>
                     </div>
 
                 </div>
@@ -130,14 +130,14 @@ export default function Perfil(props) {
 
 
                 <div className="w-12/12  md:w-11/12 h-2/6 m-5 p-5 bg-green-50   flex  justify-center items-col rounded-3xl  ">
-                    <h1 className="text-gray-600 text-xs">Lista de transações</h1>
+                    <h1 className="text-gray-600 text-xs">List and transaction</h1>
 
 
                     <div className=" w-full  flex flex-col sm:flex-col p-2 justify-center items-center ">
 
 
                         <div className="flex flex-col  w-full justify-center items-center m-5">
-                        <button className="bg-green-400 w-20 p-1 text-white hover:bg-green-600 rounded-full  flex" onClick={() => mostraEnt ? setmostraEnt(false):setmostraEnt(true)} >Entrada {mostraEnt? IconEntrar:IconSair}</button>
+                        <button className="bg-green-400 w-30 p-1 text-white hover:bg-green-600 rounded-full  flex" onClick={() => mostraEnt ? setmostraEnt(false):setmostraEnt(true)} >Prohibited {mostraEnt? IconEntrar:IconSair}</button>
                             {mostraEnt&& dadosOnline?.entradas?.map((e) =>
                                 <ul>
                                     <li className="text-green-600">R$ {e}</li>
@@ -145,7 +145,7 @@ export default function Perfil(props) {
                         </div>
 
                         <div className="flex flex-col  w-full justify-center items-center m-5 ">
-                        <button className="bg-red-400 w-20 p-2 text-white hover:bg-red-600 rounded-full flex " onClick={() => mostraDe ? setmostraDe(false):setmostraDe(true)}>Saidas {mostraDe? IconEntrar:IconSair}</button>
+                        <button className="bg-red-400 w-30 p-2 text-white hover:bg-red-600 rounded-full flex " onClick={() => mostraDe ? setmostraDe(false):setmostraDe(true)}>Exit{mostraDe? IconEntrar:IconSair}</button>
                             {mostraDe&& dadosOnline?.despesas?.map((e) =>
                                 <ul>
                                     <li className="text-gray-600"><span className="font-bold">{e.tirarDescr}</span> -  <span className="text-red-600">R${e.tirar}</span></li>

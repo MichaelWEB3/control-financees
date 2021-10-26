@@ -30,6 +30,7 @@ export default async function  users(req, resp) {
             entradas:[],
             ultima_data:'',
             ultima_data_saida:'',
+            favs:[]
 
         })
         resp.status(200).json({certo:"inserido no bd com sucesso"})
