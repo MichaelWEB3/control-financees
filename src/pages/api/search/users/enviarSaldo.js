@@ -27,7 +27,7 @@ export default async function RemoverSaldo(req, resp) {
         //enviando saldo p usuario
         const dataRecebidor = await db.collection('users').updateOne({ _id: new ObjectID(idRecebidor) }, { $inc: { total_conta: saido } })
         const dataentradas = await db.collection('users').updateOne({ _id: new ObjectID(idRecebidor) }, { $push: { entradas: saido } })
-        const ultimaData = await db.collection('users').updateOne({ _id: new ObjectID(idRecebidor) }, { $set: { ultima_entrada: ultimaDataSaida } })
+        const ultimaData = await db.collection('users').updateOne({ _id: new ObjectID(idRecebidor) }, { $set: { ultima_entrada: saido } })
         
         resp.status(200).json({ certo: "post ok" })
 

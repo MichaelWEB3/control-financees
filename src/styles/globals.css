@@ -27,3 +27,8 @@ a {
   height: 1500px;
 
 }
+
+
+.seachrdark::-webkit-input-placeholder {
+  color: white;
+}

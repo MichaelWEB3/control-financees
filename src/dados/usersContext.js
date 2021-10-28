@@ -6,6 +6,9 @@ const userContext = createContext({})
 
 export function UserProvider(props) {
     const [dateUser, setDataUser] = useState({})
+    const [dark, setDark] = useState('')
+
+
     const { data: session, status } = useSession()
 
     async function sessao(email) {
@@ -17,12 +20,22 @@ export function UserProvider(props) {
     }
 
 
+function setarDark(){
+    if (!dark) {
+       setDark('dark')
+    } else {
+       setDark('')
+    }
+}
 
 
     return (
         <userContext.Provider value={{
             sessao: sessao,
-            dateUser
+            dateUser,
+            dark,
+            setDark,
+            setarDark:setarDark
 
         }}>
             {props.children}

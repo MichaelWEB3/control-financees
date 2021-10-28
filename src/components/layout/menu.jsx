@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { useSession, signIn, signOut } from "next-auth/react"
 import router from "next/router"
 import Cookies from "js-cookie"
+import useDados from "../../dados/userHooke"
 
 export default function Menu(props) {
-
+    const dados = useDados()
     function deslogar() {
 
         Cookies.set('login', false)
@@ -20,8 +21,8 @@ export default function Menu(props) {
     return (
         <>
 
-            <nav className={` ${props.menu ? 'flex' : 'hidden'}  sm:flex w-2/12  h-screen pt-2 bg-white items-center justify-center text-gray-500 flex-col`}>
-                <h1 className="hidden md:flex sm:text-sm md:text-1xl lg:text-2xl m-2">Control Finaces</h1>
+            <nav className={` ${props.menu ? 'flex' : 'hidden'}  sm:flex w-2/12  h-screen pt-2  items-center justify-center   ${dados.dark == 'dark' ? 'bg-gray-600 text-gray-100':'bg-white text-gray-500'}  flex-col`}>
+                <h1 className="hidden md:flex sm:text-sm md:text-1xl lg:text-2xl m-2">Control Finances</h1>
 
 
 
@@ -46,8 +47,7 @@ export default function Menu(props) {
                     text-4md
                     text-gray-600
                     cursor-pointer
-                    hover:bg-green-100
-                    
+                    ${dados.dark == 'dark' ? 'bg-gray-300 text-gray-100 hover:bg-gray-400 ':'  bg-green-100 text-gray-500 hover:bg-green-100'}
                     ${props.perfil == true ? 'bg-green-200 border-r-2  border-green-600' : ''}
                     
                 `} >Perfil</span></Link></li>
@@ -61,11 +61,12 @@ export default function Menu(props) {
                     text-4md
                     text-gray-600
                     cursor-pointer
-                    hover:bg-green-100
-                    ${props.financas == true ? 'bg-green-100 border-r-2  border-green-600' : ''}
+                  
+                    ${dados.dark == 'dark' ? 'bg-gray-300 text-gray-100 hover:bg-gray-400 ':'  bg-green-100 text-gray-500 hover:bg-green-100'}
+                    ${props.financas == true ? 'bg-green-200 border-r-2  border-green-600' : ''}
                     
                 `}
-                    >Finaças</span></Link></li>
+                    >Finances</span></Link></li>
            
                 </ul>
 

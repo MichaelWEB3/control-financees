@@ -69,7 +69,7 @@ export default function Financas(props) {
 
     return (
         <Layout perfil={false} financas={true}>
-            <div className="w-full h-screen m-5 bg-green-50  p-2 flex  justify-center items-col rounded-3xl  ">
+            <div className={`w-full h-screen m-5  ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100':' bg-green-50 text-gray-700'}   p-2 flex  justify-center items-col rounded-3xl  `}>
                 <h1>Transação</h1>
 
 

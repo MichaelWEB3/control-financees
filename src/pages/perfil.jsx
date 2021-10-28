@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { IconeGoogle, IconEntrar, IconLupa, IconSair } from "../components/icons";
 import { Chart } from "react-google-charts";
 import Seach from "../components/layout/seach";
+import Dark from "../components/layout/dark";
+import { Pier, Liner, Barchar } from "../components/Barchar/idex";
 
 
 
@@ -66,10 +68,10 @@ export default function Perfil(props) {
         let totalTran = acomulador + acumuladoSaida
 
         setData([
-            ['Transaçoes', 'Transaçoes'],
-            ['Total', totalTran],
-            ['saidas', acumuladoSaida],
-            ['entradas', acomulador],
+
+            totalTran,
+            acumuladoSaida,
+            acomulador,
 
         ])
 
@@ -77,23 +79,28 @@ export default function Perfil(props) {
 
 
 
-  
+
 
     return (
         <Layout perfil={true} financas={false}>
-            <div className="flex flex-col  w-full h-full ">
+            <div className={`flex flex-col  w-full h-full   `}>
 
                 <div className="flex flex-row  w-full  items-center justify-around   ">
 
                     <div className="">
-                        <h1 className="invisible sm:visible text-gray-600 text-2xl " >DashBoard</h1>
+                        <h1 className="invisible sm:visible  text-2xl " >DashBoard</h1>
                     </div>
 
                     <div className="" >
 
-                       <Seach></Seach>
+                        <Seach></Seach>
 
                     </div>
+
+                    <div className="hidden sm:flex">
+                        <Dark></Dark>
+                    </div>
+
                     <div className="w-20 sm:hidden">
 
                         {dadosOnline?.photo ? <img className="rounded-full m-2" src={`${dadosOnline?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}
@@ -102,93 +109,78 @@ export default function Perfil(props) {
                 </div>
 
 
-                <div className="w-12/12  md:w-11/12 h-2/6 p-2 m-5 bg-green-50  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center ">
+                <div className={`w-12/12  md:w-11/12 h-50 p-2 m-5     ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-green-50 text-gray-700'}  rounded-3xl  flex flex-col sm:flex-row justify-evenly items-center `}>
                     <img src="carteiraGif.gif" className="hidden md:flex flex w-40" />
                     <div className=" flex flex-col">
 
-                        <span className="text-sm text-gray-600">Balance  </span>
-                        <span className="text-sm sm:text-xl  text-gray-400 font-bold">R${dadosOnline?.total_conta}  </span>
+                        <span className="text-sm ">Balance  </span>
+                        <span className="text-sm sm:text-xl   font-bold">R${dadosOnline?.total_conta}  </span>
                     </div>
 
                     <div className="flex flex-col">
                         <span className="text-sm sm:text-xl  text-green-800">{IconEntrar}</span>
 
                         <span className="text-sm sm:text-xl  text-green-800"> R${dadosOnline?.ultima_entrada}</span>
-                        <span className="text-sm text-gray-600">Date: {dadosOnline?.ultima_data}  </span>
+                        <span className="text-sm ">Date: {dadosOnline?.ultima_data}  </span>
 
 
                     </div>
 
                     <div className="flex flex-col">
                         <span className="text-sm sm:text-xl  text-red-800">{IconSair} R${dadosOnline?.ultima_saida}</span>
-                        <span className="text-sm text-gray-600">Date: {dadosOnline?.ultima_data}  </span>
+                        <span className="text-sm ">Date: {dadosOnline?.ultima_data}  </span>
                     </div>
 
                 </div>
 
+                <div className={`flex flex-col    m-5  p-2 rounded-lg  h-80 lg:flex-row w-11/12    ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-green-50 text-gray-700'} `}>
+
+                    <Barchar legendas={['Total', 'saidas', 'entradas']} dates={data}></Barchar>
+                    <Liner legendas={['Total', 'saidas', 'entradas']} dates={data}></Liner>
+                </div>
 
 
 
-                <div className="w-12/12  md:w-11/12 h-2/6 m-5 p-5 bg-green-50   flex  justify-center items-col rounded-3xl  ">
-                    <h1 className="text-gray-600 text-xs">List and transaction</h1>
+                <div className={`flex m-5  p-2 rounded-lg lg:flex-row w-11/12  ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-green-50 text-gray-700'}`}>
+                    <h1 className=" text-xs">List and transaction</h1>
 
 
-                    <div className=" w-full  flex flex-col sm:flex-col p-2 justify-center items-center ">
+                    <div className="flex flex-col lg:flex-row w-11/12  justify-around" >
 
 
-                        <div className="flex flex-col  w-full justify-center items-center m-5">
-                        <button className="bg-green-400 w-30 p-1 text-white hover:bg-green-600 rounded-full  flex" onClick={() => mostraEnt ? setmostraEnt(false):setmostraEnt(true)} >Prohibited {mostraEnt? IconEntrar:IconSair}</button>
-                            {mostraEnt&& dadosOnline?.entradas?.map((e) =>
+
+                        <div className="">
+                            <button className="bg-green-400 w-30 p-1 text-white hover:bg-green-600 rounded-full  flex" onClick={() => mostraEnt ? setmostraEnt(false) : setmostraEnt(true)} >Prohibited {mostraEnt ? IconEntrar : IconSair}</button>
+                            {mostraEnt && dadosOnline?.entradas?.map((e) =>
                                 <ul>
                                     <li className="text-green-600">R$ {e}</li>
                                 </ul>)}
                         </div>
 
-                        <div className="flex flex-col  w-full justify-center items-center m-5 ">
-                        <button className="bg-red-400 w-30 p-2 text-white hover:bg-red-600 rounded-full flex " onClick={() => mostraDe ? setmostraDe(false):setmostraDe(true)}>Exit{mostraDe? IconEntrar:IconSair}</button>
-                            {mostraDe&& dadosOnline?.despesas?.map((e) =>
+                        <div className="">
+                            <button className="bg-red-400 w-30 p-2 text-white hover:bg-red-600 rounded-full flex " onClick={() => mostraDe ? setmostraDe(false) : setmostraDe(true)}>Exit{mostraDe ? IconEntrar : IconSair}</button>
+                            {mostraDe && dadosOnline?.despesas?.map((e) =>
                                 <ul>
-                                    <li className="text-gray-600"><span className="font-bold">{e.tirarDescr}</span> -  <span className="text-red-600">R${e.tirar}</span></li>
+                                    <li className=""><span className="font-bold">{e.tirarDescr}</span> -  <span className="text-red-600">R${e.tirar}</span></li>
                                 </ul>)}
                         </div>
 
+
+
+                        <Pier legendas={['Total', 'saidas', 'entradas']} dates={data}></Pier>
+
+
+
                     </div>
+
                 </div>
 
 
-                <div className="flex flex-col     lg:flex-row ">
-                    <div className="flex m-2  ">
-                        <Chart
-                            width={'350px'}
-                            height={'300px'}
-                            chartType="PieChart"
-                            data={data}
-                            options={options}
-                        />
 
 
-                    </div>
-
-                    <div className=" m-2">
-                        <Chart
-                            width={'350px'}
-                            height={'300px'}
-                            chartType="Bar"
-                            loader={<div>Loading Chart</div>}
-                            data={data}
-                            options={options}
-                            // For tests
-                            rootProps={{ 'data-testid': '2' }}
-
-                        />
-
-                    </div>
-
-
-
-
-                </div>
             </div>
         </Layout>
     )
 }
+
+

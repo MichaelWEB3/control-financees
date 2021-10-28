@@ -24,7 +24,7 @@ export default function Financas(props) {
                 console.log(props.response?._id)
                 console.log(fav.id)
                 if (fav.id == props.response?._id) {
-                    console.log(fav)
+                    
                     setFavorito(true)
                 }
             })
@@ -58,7 +58,10 @@ export default function Financas(props) {
         date.then(resp => {
 
             setdadosOnline(resp)
+       
         })
+
+      
     }
 
 
@@ -119,7 +122,6 @@ export async function getServerSideProps(context) {
 
     const usuario = date.data
 
-    console.log(usuario)
     return {
         props: usuario
     }
