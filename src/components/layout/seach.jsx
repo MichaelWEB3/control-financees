@@ -42,7 +42,7 @@ export default function Seach(props) {
 
     return (
         <>
-            <span className={`flex m-2 w-30  sm:w-60 h-10 rounded-full    ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100':' bg-green-50 text-gray-700'}  p-2`}>  <input type="text" placeholder="Searcher" className={`form-input p-2  w-20 sm:w-60 rounded-full  border-solid border-1  ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100 seachrdark':' bg-green-50 text-gray-700'}  `  }onKeyUpCapture={() => { temConta() }} value={pesquisa} onChange={(e) => setPesquisa(e.target.value)} /> <span className="hidden sm:flex">{IconLupa}</span> </span>
+            <span className={`flex m-2 w-30  sm:w-60 h-10 rounded-full    ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100':' bg-blue-50 text-gray-700'}  p-2`}>  <input type="text" placeholder="Searcher" className={`form-input p-2  w-20 sm:w-60 rounded-full  border-solid border-1  ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100 seachrdark':' bg-blue-50 text-gray-700'}  `  }onKeyUpCapture={() => { temConta() }} value={pesquisa} onChange={(e) => setPesquisa(e.target.value)} /> <span className="hidden sm:flex">{IconLupa}</span> </span>
             {pesquisa && pesquisados &&
                 <div className="flex  flex-col rounded-2xl  p-2 ">
                     {pesquisados.map((resp) => 

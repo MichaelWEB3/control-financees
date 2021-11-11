@@ -25,12 +25,12 @@ export default function Lateral(props) {
     return (
         <>
 
-            <div className={`hidden md:flex w-4/12 h-full bg-withe flex-col p-5   ${dadosUsuario.dark == 'dark' ? 'bg-gray-600 text-gray-100':'text-gray-700'}`}>
+            <div className={`hidden md:flex w-3/12 h-full bg-withe flex-col p-5   ${dadosUsuario.dark == 'dark' ? 'bg-gray-600 text-gray-100':'text-gray-700'}`}>
                 <div>
                     <div className="w-full flex flex-row items-center justify-center border-b-2 border-fuchsia-60 p-2 m-2">
 
                         {dadosOnline?.photo ? <img className="rounded-full m-2" src={`${dadosOnline?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}
-                        <span className="m-1">Ola,</span> <h1 className={`bold  font-bold 	`}>{dadosOnline?.nome}, {dadosOnline?.idade} anos</h1>
+                        <span className="m-1">Ola,</span> <span className={`bold  font-bold 	`}>{dadosOnline?.nome}, {dadosOnline?.idade} anos</span>
                     </div>
 
                 </div>

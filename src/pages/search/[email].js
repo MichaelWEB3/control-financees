@@ -4,10 +4,17 @@ import useDados from "../../dados/userHooke";
 import { useSession, signIn, signOut } from "next-auth/react"
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import { IconCash, IconCoracao } from "../../components/icons";
-
-
+import { IconCash, IconCoracao, IconeCash } from "../../components/icons";
+import useSWR from 'swr'
+import api from "../../utils/api";
+import { Modal, Button, message } from 'antd';
+import { Tabs } from 'antd';
 export default function Financas(props) {
+
+    const { data, error } = useSWR(`http://localhost:3000/api/users/${props?.response?.email}`, api)
+
+    const { TabPane } = Tabs;
+
     const { data: session, status } = useSession()
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()
@@ -24,7 +31,7 @@ export default function Financas(props) {
                 console.log(props.response?._id)
                 console.log(fav.id)
                 if (fav.id == props.response?._id) {
-                    
+
                     setFavorito(true)
                 }
             })
@@ -41,8 +48,8 @@ export default function Financas(props) {
 
 
     async function enviarSaldo() {
-        
-        if (dadosOnline?.total_conta <= 0 ||  dadosOnline?.total_conta < parseFloat(enviar)) {
+
+        if (dadosOnline?.total_conta <= 0 || dadosOnline?.total_conta < parseFloat(enviar)) {
             alert("negation")
             return
         }
@@ -53,24 +60,27 @@ export default function Financas(props) {
             despesas: { tirarDescr: `tiranrferencia para ${props?.response?.nome} -  ID: ${props?.response?._id}`, tirar: parseFloat(enviar) },
             ultimaDataSaida: dataAtual,
             idRecebidor: props?.response?._id
+        }).then(() => {
+            message.success('money sent successfully');
         })
+        alert("money sent successfully")
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
 
             setdadosOnline(resp)
-       
+
         })
 
-      
+
     }
 
 
     async function fav() {
         if (favorito) {
-            alert("pessoa ja no fav")
+            message.error('This user already exists in your favorites');
             return
         }
-        
+
         const data = await axios.post(`http://localhost:3000/api/search/users/addFav`, {
 
             id: dadosOnline?._id,
@@ -81,28 +91,72 @@ export default function Financas(props) {
                 email: props.response?.email,
                 idade: props.response?.idade
             }
+        }).catch(() => {
+            message.success('succes forever favorite');
         })
-        const date = dadosUsuario.sessao(session?.user.email)
+
+        const date = dadosUsuario.sessao(session?.user?.email)
         date.then(resp => {
 
             setdadosOnline(resp)
         })
     }
 
+
+    //modal
+
+    const [visiblesaida, setvisiblesaida] = useState(false)
+    const [visible, setvisible] = useState(false)
+
+
+
+    const showModalsaida = () => {
+        setvisiblesaida(true)
+    };
+    const handleCancelsaida = e => {
+        console.log(e);
+        setvisiblesaida(false)
+    };
+
     return (
         <Layout perfil={false} financas={true}>
-            <div className="w-full h-screen m-5 bg-green-50  p-2 flex-col w  justify-center items-center   items-col rounded-3xl  ">
+            <div className={`w-full h-96 m-5 heigue  ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-blue-50 text-gray-700'}   p-2 flex-col w  justify-center items-center   items-col rounded-3xl  `}>
                 <div className="flex flex-row m-5 p-5 justify-around items-center">
                     <div> {props?.response?.photo ? <img className="rounded-full " src={`${props?.response?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}</div>
                     <div><span className="font-bold text-2xl ">{props.response?.nome}</span></div>
                     <div> <span className="font-bold text-xl ">{props.response?.idade}, anos</span></div>
-                    <div className={`${favorito ? 'text-red-600':'text-gray-400' }  hover:text-red-600 cursor-pointer`} onClick={() => fav()}>{IconCoracao}</div>
+                    <div className={`${favorito ? 'text-red-600' : 'text-gray-400'}  hover:text-red-600 cursor-pointer`} onClick={() => fav()}>{IconCoracao}</div>
                 </div>
                 <div className="flex flex-col justify-center items-center p-5 m-5 ">
-                    <div className="flex flex-row text-xl font-bold justify-around items-baseline "> <span className="flex "> Saldo em conta:</span> <span className="text-green-500 text-xl ">  R${props.response?.total_conta}</span> </div>
-                    <span className="text-sm text-gray-600 m-5">Enviar din din</span>
-                    <input type="number" className="w-1/2 border-1 border-solid bg-gray-500 text-white border-black p-2 rounded-xl m-1" onChange={(e) => setEnviar(e.target.value)} placeholder="00,00"></input>
-                    <button className="bg-green-400 w-20 p-1 text-white hover:bg-green-600 rounded-full " onClick={() => enviarSaldo()}>+</button>
+                    <span className="text-sm flex justify-between items-center w-20 "> {IconeCash} Balance  </span>
+                    <div className="flex flex-row text-xl font-bold justify-around items-baseline ">  <span className=" text-xl ">  {data?.data?.response?.total_conta?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span> </div>
+
+
+                    <Button type="primary" onClick={showModalsaida} className=" m-5 bg-blue-400  text-gray-100 hover:bg-blue-500 hover:text-gray-100 border-0">
+                        To send
+                    </Button>
+                    <Modal
+                        title="Pay"
+                        visible={visiblesaida}
+                        onOk={enviarSaldo}
+                        onCancel={handleCancelsaida}
+
+
+                    >
+                        <div className="flex flex-col">
+                            <span className="text-red-700 text-sm ml-2">Deposite na carteira  de seu amigo </span>
+                           
+                            <input type="number" className="w-1/2 border-1 border-solid bg-blue-200 border-black p-2 rounded-xl m-1" onChange={(e) => setEnviar(e.target.value)} placeholder="00,00"></input>
+
+                        </div>
+
+
+                    </Modal>
+
+
+
+
+
 
                 </div>
 

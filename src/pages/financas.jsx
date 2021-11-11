@@ -3,6 +3,9 @@ import Layout from "../components/layout";
 import useDados from "../dados/userHooke";
 import { useSession, signIn, signOut } from "next-auth/react"
 import axios from "axios";
+import { Tabs } from 'antd';
+import { Modal, Button, message } from 'antd';
+import { IconeCash } from "../components/icons";
 
 
 export default function Financas(props) {
@@ -17,7 +20,11 @@ export default function Financas(props) {
     const [tirarDescr, settirarDescr] = useState('')
 
 
+    const { TabPane } = Tabs;
 
+    function callback(key) {
+        console.log(key);
+    }
 
 
     useEffect(() => {
@@ -39,7 +46,15 @@ export default function Financas(props) {
             id: dadosOnline?._id,
             entradas: parseFloat(entrada),
             ultimaDataEntrada: dataAtual
+        }).then(() => {
+            setvisibleEntrada(false)
+            message.success('succes deposit account');
+        }).catch((e) => {
+            message.error('error transition deposit');
         })
+
+
+
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
 
@@ -50,8 +65,9 @@ export default function Financas(props) {
     }
 
     async function remove() {
-        if(dadosOnline?.total_conta <= 0){
-            alert("saldo negativo tansação recusada")
+
+        if (dadosOnline?.total_conta <= 0 || dadosOnline?.total_conta < parseFloat(tirar)) {
+            message.error('insufficient funds');
             return
         }
         const data = await axios.post(`http://localhost:3000/api/removerSaldo`, {
@@ -59,6 +75,10 @@ export default function Financas(props) {
             despesas: { tirarDescr, tirar: parseFloat(tirar) },
             id: dadosOnline?._id,
             ultimaDataSaida: dataAtual
+        }).then(() => {
+            message.success('succes account pay');
+        }).catch((e) => {
+            message.error('error transiton pay');
         })
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
@@ -67,33 +87,102 @@ export default function Financas(props) {
         })
     }
 
+
+    //modal
+
+    const [visibleEntrada, setvisibleEntrada] = useState(false)
+    const [visiblesaida, setvisiblesaida] = useState(false)
+
+    const [visible, setvisible] = useState(false)
+
+    const showModalEntrada = () => {
+        setvisibleEntrada(true)
+    };
+    const handleCancelEntrada = e => {
+        console.log(e);
+        setvisibleEntrada(false)
+    };
+
+
+    const showModalsaida = () => {
+        setvisiblesaida(true)
+    };
+    const handleCancelsaida = e => {
+        console.log(e);
+        setvisiblesaida(false)
+    };
+
+
+
     return (
         <Layout perfil={false} financas={true}>
-            <div className={`w-full h-screen m-5  ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100':' bg-green-50 text-gray-700'}   p-2 flex  justify-center items-col rounded-3xl  `}>
-                <h1>Transação</h1>
-
-
-                <div className=" w-full  flex flex-col sm:flex-col p-2 justify-center items-center ">
+            <div className=" m-5 flex flex-col w-full p-5   ">
+                <div className={`w-full h-64 m-5 flex flex-col   ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-blue-50 text-gray-700'}   p-2 rounded-3xl  `}>
                     <div className="flex flex-col   w-full justify-center items-center">
-                        <span className="text-sm  text-gray-600">Saldo  </span>
-                        <span className="text-xl  text-gray-400 font-bold">R${dadosOnline?.total_conta}  </span>
+                        <span className="text-sm flex justify-between items-center w-20 "> {IconeCash} Balance  </span>
+                        <span className="text-xl   font-bold flex items-center"> {dadosOnline?.total_conta?.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}  </span>
                     </div>
 
-                    <div className="flex flex-col  w-full justify-center items-center m-5">
-                        <span className="text-xl text-green-700 m-1">Adicione Saldo</span>
-                        <input type="number" value={entrada} onChange={(e) => setentrada(e.target.value)} className="w-1/2 border-1 border-solid bg-gray-500 text-white border-black p-2 rounded-xl m-1" placeholder="00,00"></input>
-                        <button className="bg-green-400 w-20 p-1 text-white hover:bg-green-600 rounded-full " onClick={() => add()}>+</button>
-                    </div>
 
-                    <div className="flex flex-col  w-full justify-center items-center m-5 ">
-                        <span className="text-xl text-red-400 m-1">Pagar conta</span>
-                        <input type="text" value={tirarDescr} onChange={(e) => settirarDescr(e.target.value)} className="w-1/2  border-1 border-solid bg-gray-500 text-white border-black p-2 rounded-xl m-1" placeholder="descrição"></input>
-                       <input type="number" value={tirar} onChange={(e) => settirar(e.target.value)} className="w-1/2  border-1 border-solid bg-gray-500 text-white border-black p-2 rounded-xl m-1" placeholder="00,00"></input>
-                        <button className="bg-red-400 w-20 p-1 text-white hover:bg-red-600 rounded-full " onClick={() => remove()}>-</button>
-                    </div>
+                    <Tabs defaultActiveKey="1" className={`${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-blue-50 text-gray-700'}     }`}>
+
+                        <TabPane tab="Deposit" key="1" className="hover:text-gray-300 flex justify-center items-center p-2">
+
+
+
+                            <Button type="primary" onClick={showModalEntrada} className="  bg-blue-400  text-gray-100 hover:bg-blue-500 hover:text-gray-100 border-0">
+                                Deposit
+                            </Button>
+                            <Modal
+                                title="deposit"
+                                visible={visibleEntrada}
+                                onOk={add}
+                                onCancel={handleCancelEntrada}
+
+                            >
+                                <div className="flex flex-col">
+                                    <span className="text-blue-700 text-sm">Deposite dinheiro em sua conta, </span>
+                                    <span className="text-blue-700 text-sm"> dinheiro depositado ira diretamente para sua carteira</span>
+                                    <span className="text-xl text-blue-700 m-1">+  <input type="number" value={entrada} onChange={(e) => setentrada(e.target.value)} className="w-1/2 border-1 border-solid h-10 bg-blue-200 text-gray-400 border-black p-2 rounded-xl m-2" placeholder="00,00"></input></span>
+
+                                </div>
+
+                            </Modal>
+                        </TabPane>
+
+
+                        <TabPane tab="Pay the bills" key="2" className="hover:text-gray-300 flex justify-center items-center">
+                            <Button type="Pay" onClick={showModalsaida} className="  bg-blue-400  text-gray-100 hover:bg-blue-500 hover:text-gray-100 border-0">
+                                Pay
+
+                            </Button>
+                            <Modal
+                                title="Pay"
+                                visible={visiblesaida}
+                                onOk={remove}
+                                onCancel={handleCancelsaida}
+
+
+                            >
+                                <div className="flex flex-col">
+                                    <span className="text-red-700 text-sm">Pague suas contas, </span>
+                                    <span className="text-red-700 text-sm"> digite descrição e valor</span>
+                                    <input type="text" value={tirarDescr} onChange={(e) => settirarDescr(e.target.value)} className="w-1/2  border-1 border-solid bg-blue-200 text-gray-400  border-black p-2 rounded-xl m-1" placeholder="descrição"></input>
+                                    <input type="number" value={tirar} onChange={(e) => settirar(e.target.value)} className="w-1/2  border-1 border-solid bg-blue-200 text-gray-400  border-black p-2 rounded-xl m-1" placeholder="00,00"></input>
+
+                                </div>
+
+
+                            </Modal>
+                        </TabPane>
+
+                    </Tabs>
 
                 </div>
             </div>
+
+
+
         </Layout>
     )
 }

@@ -1,5 +1,5 @@
 /* ./styles/globals.css */
-
+@import 'antd/dist/antd.css';
 html,
 body {
   padding: 0;
@@ -24,11 +24,21 @@ a {
 
 .heigue{
   
-  height: 1500px;
+  height: 1200px;
 
 }
 
 
 .seachrdark::-webkit-input-placeholder {
   color: white;
+}
+
+
+
+
+@media only screen and (min-width: 768px) {
+  .lft{
+ 
+    margin-left: 177px;
+  }
 }

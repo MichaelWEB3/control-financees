@@ -5,6 +5,8 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import router from "next/router"
 import Cookies from "js-cookie"
 import useDados from "../../dados/userHooke"
+import * as React from "react";
+import { render } from "react-dom";
 
 export default function Menu(props) {
     const dados = useDados()
@@ -21,8 +23,8 @@ export default function Menu(props) {
     return (
         <>
 
-            <nav className={` ${props.menu ? 'flex' : 'hidden'}  sm:flex w-2/12  h-screen pt-2  items-center justify-center   ${dados.dark == 'dark' ? 'bg-gray-600 text-gray-100':'bg-white text-gray-500'}  flex-col`}>
-                <h1 className="hidden md:flex sm:text-sm md:text-1xl lg:text-2xl m-2">Control Finances</h1>
+            <nav className={`fixed ${props.menu ? 'flex' : 'hidden'}  sm:flex w-50 h-screen pt-2  items-center justify-center   ${dados.dark == 'dark' ? 'bg-gray-600 text-gray-100':'bg-white text-gray-500'}  flex-col`}>
+                <span className="hidden md:flex sm:text-sm md:text-1xl lg:text-2xl m-2">Finance control</span>
 
 
 
@@ -47,8 +49,8 @@ export default function Menu(props) {
                     text-4md
                     text-gray-600
                     cursor-pointer
-                    ${dados.dark == 'dark' ? 'bg-gray-300 text-gray-100 hover:bg-gray-400 ':'  bg-green-100 text-gray-500 hover:bg-green-100'}
-                    ${props.perfil == true ? 'bg-green-200 border-r-2  border-green-600' : ''}
+                    ${dados.dark == 'dark' ? 'bg-gray-300 text-gray-100 hover:bg-gray-400 ':'  bg-blue-100 text-gray-500 hover:bg-blue-100'}
+                    ${props.perfil == true ? 'bg-blue-200 border-r-2  border-blue-600' : ''}
                     
                 `} >Perfil</span></Link></li>
 
@@ -62,22 +64,22 @@ export default function Menu(props) {
                     text-gray-600
                     cursor-pointer
                   
-                    ${dados.dark == 'dark' ? 'bg-gray-300 text-gray-100 hover:bg-gray-400 ':'  bg-green-100 text-gray-500 hover:bg-green-100'}
-                    ${props.financas == true ? 'bg-green-200 border-r-2  border-green-600' : ''}
+                    ${dados.dark == 'dark' ? 'bg-gray-300 text-gray-100 hover:bg-gray-400 ':'  bg-blue-100 text-gray-500 hover:bg-blue-100'}
+                    ${props.financas == true ?'bg-blue-200 border-r-2  border-blue-600' : ''}
                     
                 `}
                     >Finances</span></Link></li>
            
                 </ul>
 
-                <h1 className={`
+                <span className={`
                 
                 sm:flex
                 p-2
                 cursor-pointer
                 hover:text-red-400
                 
-                `} onClick={() => deslogar()}>{IconLogout}</h1>
+                `} onClick={() => deslogar()}>{IconLogout}</span>
 
             </nav>
         </>
