@@ -77,6 +77,7 @@ export default function Financas(props) {
             ultimaDataSaida: dataAtual
         }).then(() => {
             message.success('succes account pay');
+            setvisiblesaida(false)
         }).catch((e) => {
             message.error('error transiton pay');
         })

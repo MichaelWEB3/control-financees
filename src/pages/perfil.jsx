@@ -189,9 +189,10 @@ export default function Perfil(props) {
 
                             <div className="">
                                 <button className="bg-red-400 w-30 p-2 text-white hover:bg-red-600 rounded-full flex " onClick={() => mostraDe ? setmostraDe(false) : setmostraDe(true)}>Exit{mostraDe ? IconEntrar : IconSair}</button>
-                                {mostraDe && dadosOnline?.despesas?.map((e) =>
+                                {mostraDe && dadosOnline?.despesas?.map((e,i) =>
+                               
                                     <ul>
-                                        <li className=""><span className="font-bold">{e.tirarDescr}</span> -  <span className="text-red-600">{e.tirar?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span></li>
+                                        <li className="" key={i}><span className="font-bold">{e.tirarDescr}</span> -  <span className="text-red-600">{e.tirar?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span></li>
                                     </ul>)}
                             </div>
 

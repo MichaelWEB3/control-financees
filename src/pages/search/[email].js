@@ -62,6 +62,7 @@ export default function Financas(props) {
             idRecebidor: props?.response?._id
         }).then(() => {
             message.success('money sent successfully');
+            setvisiblesaida(false)
         })
         alert("money sent successfully")
         const date = dadosUsuario.sessao(session?.user.email)
@@ -93,6 +94,7 @@ export default function Financas(props) {
             }
         }).catch(() => {
             message.success('succes forever favorite');
+            
         })
 
         const date = dadosUsuario.sessao(session?.user?.email)
