@@ -39,7 +39,7 @@ export default function Financas(props) {
         })
 
 
-    }, [])
+    }, [dadosOnline])
 
 
 
@@ -92,8 +92,10 @@ export default function Financas(props) {
                 email: props.response?.email,
                 idade: props.response?.idade
             }
-        }).catch(() => {
+        }).then(() => {
+            alert("favoritado com sucesso")
             message.success('succes forever favorite');
+           
             
         })
 
@@ -127,7 +129,7 @@ export default function Financas(props) {
                     <div> {props?.response?.photo ? <img className="rounded-full " src={`${props?.response?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}</div>
                     <div><span className="font-bold text-2xl ">{props.response?.nome}</span></div>
                     <div> <span className="font-bold text-xl ">{props.response?.idade}, anos</span></div>
-                    <div className={`${favorito ? 'text-red-600' : 'text-gray-400'}  hover:text-red-600 cursor-pointer`} onClick={() => fav()}>{IconCoracao}</div>
+                    <div className={`${favorito && 'text-red-600' }  hover:text-red-600 cursor-pointer  ${dadosUsuario?.dark == 'dark' ? 'text-gray-700 ' : ' text-blue-300 '}`}  onClick={() => fav()}>{IconCoracao}</div>
                 </div>
                 <div className="flex flex-col justify-center items-center p-5 m-5 ">
                     <span className="text-sm flex justify-between items-center w-20 "> {IconeCash} Balance  </span>

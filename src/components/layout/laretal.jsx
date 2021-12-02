@@ -20,7 +20,7 @@ export default function Lateral(props) {
 
 
 
-    }, [])
+    }, [dadosUsuario,dadosOnline])
 
     return (
         <>
@@ -29,8 +29,8 @@ export default function Lateral(props) {
                 <div>
                     <div className="w-full flex flex-row items-center justify-center border-b-2 border-fuchsia-60 p-2 m-2">
 
-                        {dadosOnline?.photo ? <img className="rounded-full m-2" src={`${dadosOnline?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}
-                        <span className="m-1">Ola,</span> <span className={`bold  font-bold 	`}>{dadosOnline?.nome}, {dadosOnline?.idade} anos</span>
+                        {dadosOnline?.photo ? <img className="rounded-full m-2 h-14 w-14" src={`${dadosOnline?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}
+                       <div className="flex flex-col"> <span className="m-1">Ola</span> <span className={`bold  font-bold 	`}>{dadosOnline?.nome}, {dadosOnline?.idade} anos</span></div>
                     </div>
 
                 </div>
@@ -41,7 +41,7 @@ export default function Lateral(props) {
                         <ul>
                             {dadosOnline?.favs?.map((userfav, idex) => {
                               return  <li key={userfav.id}>
-                                    <div className="flex flex-row  items-center"> {userfav?.photo ? <img className="rounded-full m-5 w-20" src={`${userfav?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />} <Link href={`/search/${userfav.email}`}><span className=" font-bold mr-5 cursor-pointer">{userfav.nome  } </span></Link> <span className="text-red-600">{IconCoracao}</span> </div>
+                                    <div className="flex flex-row  items-center"> {userfav?.photo ? <img className="rounded-full m-5  h-14 w-14" src={`${userfav?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />} <Link href={`/search/${userfav.email}`}><span className=" font-bold mr-5 cursor-pointer">{userfav.nome  } </span></Link> <span className="text-red-600">{IconCoracao}</span> </div>
                                 </li>
                             })}
                         </ul>
