@@ -8,19 +8,19 @@ import Seach from "../components/layout/seach";
 import Dark from "../components/layout/dark";
 import { Pier, Liner, Barchar } from "../components/Barchar/idex";
 import { motion } from "framer-motion";
-
+import jsPDF from "jspdf";
 import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import { Table, Divider, Tag } from 'antd';
+import pdfmake from 'pdfmake/build/pdfmake'
+import pdfFonts from 'pdfmake/build/vfs_fonts'
+
 
 export default function Perfil(props) {
     const { data: session, status } = useSession()
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()
-
-
     const [entrada, setentrada] = useState(0)
     const [tirar, settirar] = useState(0)
-
     const [total, setTotal] = useState(null)
     const [totalEntrada, settotalEntrada] = useState(null)
     const [totalSaida, settotalSaida] = useState(null)
@@ -94,17 +94,112 @@ export default function Perfil(props) {
 
 
 
-   
-      
-      const columns = [
+
+
+    const columns = [
         {
-          title: 'Entradas',
-          dataIndex: 'entradas',
-          key: 'entradas',
+            title: 'Entradas',
+            dataIndex: 'entradas',
+            key: 'entradas',
         },
-        
-      ];
-      
+
+    ];
+
+
+    //gerador ped
+    function generatePDF() {
+
+        if (dadosOnline) {
+            pdfmake.vfs = pdfFonts.pdfMake.vfs
+
+            const titulos = [
+                {
+                    text: 'Clientes',
+                    fontSize: 15,
+                    bold: true,
+                    margin: [15, 20, 0, 45]
+                },
+            ]
+
+            const juncao = [...dadosOnline?.entradas, ...dadosOnline?.despesas]
+
+
+
+
+
+            const dataa = juncao?.map((e) => {
+                console.log("aaaaaaaaaaa")
+                console.log(e)
+                return [
+                    {
+                        text: e || '-',
+                        fontSize: 9,
+                        margin: [0, 2, 0, 2]
+                    },
+                    {
+                        text:  e.tirarDescr ? e.tirarDescr + " - " + e.tirar : '',
+                        fontSize: 9,
+                        margin: [0, 2, 0, 2]
+                    },
+                ]
+            }
+
+            )
+            const detalhes = [
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', '*'],
+                        body: [
+                            [
+                                {
+                                    text: 'Depositos',
+                                    style: 'tableHeader',
+                                    fontSize: 10
+                                },
+                                {
+                                    text: 'Saidas e transferencias',
+                                    style: 'tableHeader',
+                                    fontSize: 10
+                                },
+                            ],
+
+                            ...dataa
+
+
+
+                        ]
+                    },
+                    layout: 'headerLineOnly'
+                }
+            ]
+
+
+            function rodape(currentPage, pageCounf) {
+                return [
+                    {
+                        text: currentPage.toLocaleString(),
+                        aligment: 'right',
+                        fontSize: 9,
+                        bold: true,
+                        margin: [15, 10, 20, 0]
+                    }
+                ]
+            }
+
+            const docDefi = {
+                pageSize: 'A4',
+                pageMargins: [15, 50, 15, 40],
+                header: [titulos],
+                content: [detalhes],
+                footer: rodape
+            }
+
+            pdfmake.createPdf(docDefi).download()
+        }
+
+    }
+
 
     return (
         <Layout perfil={true} financas={false}>
@@ -171,26 +266,26 @@ export default function Perfil(props) {
 
                     <div className={`flex m-5  p-2 rounded-lg lg:flex-row w-11/12  ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-blue-50 text-gray-700'}`}>
                         <h1 className=" text-xs">List and transaction</h1>
-
+                        <button className="bg-gray-500 h-16 rounded-lg" onClick={generatePDF}>Download relatorio em PDF</button>
 
                         <div className="flex flex-col lg:flex-row w-11/12  justify-around" >
 
 
 
                             <div className="">
-                                <button className="bg-blue-400 w-30 p-1 text-white hover:bg-blue-600 rounded-full  flex" onClick={() => mostraEnt ? setmostraEnt(false) : setmostraEnt(true)} >Prohibited {mostraEnt ? IconEntrar : IconSair}</button>
+                                <button className="bg-blue-400 w-30 p-1 text-white hover:bg-blue-600 rounded-lg  flex" onClick={() => mostraEnt ? setmostraEnt(false) : setmostraEnt(true)} >Prohibited {mostraEnt ? IconEntrar : IconSair}</button>
                                 {mostraEnt && dadosOnline?.entradas?.map((e) =>
                                     <ul>
                                         <li className="text-blue-600">{e?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</li>
                                     </ul>)}
 
-                                   
+
                             </div>
 
                             <div className="">
-                                <button className="bg-red-400 w-30 p-2 text-white hover:bg-red-600 rounded-full flex " onClick={() => mostraDe ? setmostraDe(false) : setmostraDe(true)}>Exit{mostraDe ? IconEntrar : IconSair}</button>
-                                {mostraDe && dadosOnline?.despesas?.map((e,i) =>
-                               
+                                <button className="bg-red-400 w-30 p-2 text-white hover:bg-red-600 rounded-lg flex " onClick={() => mostraDe ? setmostraDe(false) : setmostraDe(true)}>Exit{mostraDe ? IconEntrar : IconSair}</button>
+                                {mostraDe && dadosOnline?.despesas?.map((e, i) =>
+
                                     <ul>
                                         <li className="" key={i}><span className="font-bold">{e.tirarDescr}</span> -  <span className="text-red-600">{e.tirar?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span></li>
                                     </ul>)}
