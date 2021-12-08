@@ -16,6 +16,7 @@ export default function Home() {
   const [verificado, setverificado] = useState(false)
 
   function GerenciarCookie(logado) {
+
     if (logado) {
       Cookies.set('login', logado, {
         //dias logado
@@ -33,12 +34,12 @@ export default function Home() {
     if (resp) {
 
       setconta(true)
-      
-    }else{
+
+    } else {
       setverificado(true)
     }
   }
-  
+
   async function authentic() {
     const data = await axios.post(`http://localhost:3000/api/users`, {
       nome: nome,
@@ -46,7 +47,7 @@ export default function Home() {
       email: session.user.email,
       photo: session.user.image,
       idade,
-      
+
     })
 
     router.push('/perfil')
@@ -54,18 +55,20 @@ export default function Home() {
   }
 
 
-  if (session) {
-    temConta()
 
-    if (conta) {
-      GerenciarCookie(true)
-      router.push('/perfil')
-    } else {
-      GerenciarCookie(false)
+
+    if (session) {
+      temConta()
+
+      if (conta) {
+        GerenciarCookie(true)
+        router.push('/perfil')
+      } else {
+        GerenciarCookie(false)
+      }
     }
-  }
 
-
+  
 
 
   return (
@@ -90,7 +93,7 @@ export default function Home() {
           {status == 'loading' && <img src={'carregando.svg'} />}
 
           {session && !conta && !verificado &&
-          
+
             <img src={'carregando.svg'} />
           }
 
@@ -103,7 +106,7 @@ export default function Home() {
               {verificado &&
 
                 <>
-                          <h1 className={`
+                  <h1 className={`
                   flex
                   items-center justify-center
             
@@ -122,7 +125,7 @@ export default function Home() {
                   <button className="w-full rounded-full py-3 px-6 bg-green-400 hover:bg-green-500 flex items-center justify-center text-white" onClick={() => {
                     authentic()
                   }} > Continuar</button>
-                    <h1 className="text-sm m-2 text-red-300 cursor-pointer" onClick={()=> signOut()} >cancelar</h1>
+                  <h1 className="text-sm m-2 text-red-300 cursor-pointer" onClick={() => signOut()} >cancelar</h1>
 
                 </>
               }
