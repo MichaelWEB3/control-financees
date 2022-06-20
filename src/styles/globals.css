@@ -42,3 +42,7 @@ a {
     margin-left: 177px;
   }
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
