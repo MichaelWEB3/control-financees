@@ -11,7 +11,7 @@ import router from "next/router"
 
 export default function Financas(props) {
 
-    const { data, error } = useSWR(`http://localhost:3000/api/users/${props?.response?.email}`, api)
+    const { data, error } = useSWR(`https://control-financees-mucqchbku-michaelweb3.vercel.app/api/users/${props?.response?.email}`, api)
     const { data: session, status } = useSession()
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()

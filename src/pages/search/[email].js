@@ -9,7 +9,7 @@ import api from "../../utils/api";
 import { Modal, Button, message } from 'antd';
 import Image from "next/image";
 export default function Financas(props) {
-    const { data, error } = useSWR(`http://localhost:3000/api/users/${props?.response?.email}`, api)
+    const { data, error } = useSWR(`http://https://control-financees-mucqchbku-michaelweb3.vercel.app/api/users/${props?.response?.email}`, api)
     const { data: session, status } = useSession()
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()
@@ -135,29 +135,15 @@ export default function Financas(props) {
                         visible={visiblesaida}
                         onOk={enviarSaldo}
                         onCancel={handleCancelsaida}
-
-
                     >
                         <div className="flex flex-col">
                             <span className="text-red-700 text-sm ml-2">Deposite na carteira  de seu amigo </span>
-
                             <input type="number" className="w-1/2 border-1 border-solid bg-blue-200 border-black p-2 rounded-xl m-1" onChange={(e) => setEnviar(e.target.value)} placeholder="00,00"></input>
-
                         </div>
-
 
                     </Modal>
 
-
-
-
-
-
                 </div>
-
-
-
-
             </div>
         </Layout>
     )

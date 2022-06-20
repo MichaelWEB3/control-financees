@@ -18,7 +18,7 @@ export default function Seach(props) {
     }, [dadosOnline, session, dadosUsuario])
     async function temConta() {
         if (pesquisa) {
-            const date = await axios.get(`http://localhost:3000/api/search/users/${pesquisa}`)
+            const date = await axios.get(`https://control-financees-mucqchbku-michaelweb3.vercel.app/api/search/users/${pesquisa}`)
             const resp = await date.data.response
             if (resp) {
                 setpesquisados(resp)

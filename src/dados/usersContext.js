@@ -13,7 +13,7 @@ export function UserProvider(props) {
 
     async function sessao(email) {
         if (email) {
-            const date = await axios.get(`http://localhost:3000/api/users/${email}`)
+            const date = await axios.get(`https://control-financees-mucqchbku-michaelweb3.vercel.app/api/users/${email}`)
             const resp = await date.data.response
             return resp
         }

@@ -30,7 +30,7 @@ export default function Financas(props) {
     const dataAtual = Data.toLocaleDateString('pt-br')
 
     async function add() {
-        const data = await axios.post(`http://localhost:3000/api/addsaldo`, {
+        const data = await axios.post(`https://control-financees-mucqchbku-michaelweb3.vercel.app/api/addsaldo`, {
             entrada: parseFloat(entrada),
             id: dadosOnline?._id,
             entradas: parseFloat(entrada),
@@ -59,7 +59,7 @@ export default function Financas(props) {
             message.error('insufficient funds');
             return
         }
-        const data = await axios.post(`http://localhost:3000/api/removerSaldo`, {
+        const data = await axios.post(`https://control-financees-mucqchbku-michaelweb3.vercel.app/api/removerSaldo`, {
             saido: parseFloat(tirar),
             despesas: { tirarDescr, tirar: parseFloat(tirar) },
             id: dadosOnline?._id,
@@ -161,8 +161,6 @@ export default function Financas(props) {
                                     <input type="number" value={tirar} onChange={(e) => settirar(e.target.value)} className="w-1/2  border-1 border-solid bg-blue-200 text-gray-400  border-black p-2 rounded-xl m-1" placeholder="00,00"></input>
 
                                 </div>
-
-
                             </Modal>
                         </TabPane>
 

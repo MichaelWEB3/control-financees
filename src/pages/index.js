@@ -18,7 +18,7 @@ export default function Home() {
 
 
   async function authentic() {
-    const data = await axios.post(`http://localhost:3000/api/users`, {
+    const data = await axios.post(`https://control-financees-mucqchbku-michaelweb3.vercel.app/api/users`, {
       nome: nome,
       name: session.user.name,
       email: session.user.email,
@@ -31,7 +31,7 @@ export default function Home() {
 
   useEffect(() => {
     async function temConta() {
-      const date = await axios.get(`http://localhost:3000/api/users/${session?.user.email}`)
+      const date = await axios.get(`https://control-financees-mucqchbku-michaelweb3.vercel.app/api/users/${session?.user.email}`)
       const resp = await date.data.response
       if (resp) {
         await setconta(true)
