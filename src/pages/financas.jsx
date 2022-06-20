@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Layout from "../components/layout";
 import useDados from "../dados/userHooke";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import axios from "axios";
 import { Tabs } from 'antd';
 import { Modal, Button, message } from 'antd';
@@ -9,32 +9,21 @@ import { IconeCash } from "../components/icons";
 
 
 export default function Financas(props) {
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()
-
-    const [saldo, setSaldo] = useState(dadosOnline?.total_conta || 0)
     const [entrada, setentrada] = useState('')
-
     const [tirar, settirar] = useState('')
     const [tirarDescr, settirarDescr] = useState('')
-
-
     const { TabPane } = Tabs;
-
-    function callback(key) {
-        console.log(key);
-    }
-
 
     useEffect(() => {
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
-
             setdadosOnline(resp)
         })
 
-    }, [])
+    }, [dadosUsuario, session])
 
 
     const Data = new Date()
@@ -121,7 +110,7 @@ export default function Financas(props) {
                 <div className={`w-full h-64 m-5 flex flex-col   ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-blue-50 text-gray-700'}   p-2 rounded-3xl  `}>
                     <div className="flex flex-col   w-full justify-center items-center">
                         <span className="text-sm flex justify-between items-center w-20 "> {IconeCash} Balance  </span>
-                        <span className="text-xl   font-bold flex items-center"> {dadosOnline?.total_conta?.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}  </span>
+                        <span className="text-xl   font-bold flex items-center"> {dadosOnline?.total_conta?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}  </span>
                     </div>
 
 

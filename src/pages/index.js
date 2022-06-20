@@ -1,44 +1,22 @@
-import { IconeGoogle, Mao } from "../components/icons";
+import { IconeGoogle } from "../components/icons";
 import { useSession, signIn, signOut } from "next-auth/react"
 import router from 'next/router'
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies, { set } from "js-cookie";
+import Cookies from "js-cookie";
+import Image from "next/image";
 
 
 export default function Home() {
   const { data: session, status } = useSession()
-
   const [conta, setconta] = useState(false)
   const [nome, setNome] = useState('')
   const [email, setEamil] = useState('')
   const [idade, setIdade] = useState('')
   const [verificado, setverificado] = useState(false)
 
-  function GerenciarCookie(logado) {
 
-    if (logado) {
-      Cookies.set('login', logado, {
-        //dias logado
-        expires: 7
-      })
-    } else {
-      Cookies.remove('login')
-    }
-  }
 
-  async function temConta() {
-
-    const date = await axios.get(`http://localhost:3000/api/users/${session?.user.email}`)
-    const resp = await date.data.response
-    if (resp) {
-
-      setconta(true)
-
-    } else {
-      setverificado(true)
-    }
-  }
 
   async function authentic() {
     const data = await axios.post(`http://localhost:3000/api/users`, {
@@ -49,17 +27,22 @@ export default function Home() {
       idade,
 
     })
-
     router.push('/perfil')
-
   }
 
-
-
+  useEffect(() => {
+    async function temConta() {
+      const date = await axios.get(`http://localhost:3000/api/users/${session?.user.email}`)
+      const resp = await date.data.response
+      if (resp) {
+        await setconta(true)
+      } else {
+        await setverificado(true)
+      }
+    }
 
     if (session) {
       temConta()
-
       if (conta) {
         GerenciarCookie(true)
         router.push('/perfil')
@@ -68,8 +51,17 @@ export default function Home() {
       }
     }
 
-  
-
+    function GerenciarCookie(logado) {
+      if (logado) {
+        Cookies.set('login', logado, {
+          //dias logado
+          expires: 7
+        })
+      } else {
+        Cookies.remove('login')
+      }
+    }
+  }, [session, conta, verificado,session.user])
 
   return (
     <>
@@ -82,7 +74,7 @@ export default function Home() {
           h-screen
          
       `}>
-          <img src={`https://source.unsplash.com/random`}></img>
+          <Image alt="img" src={`https://source.unsplash.com/random`}/>
         </div>
         <div className={`
         w-1/2  
@@ -90,19 +82,16 @@ export default function Home() {
         `}>
 
 
-          {status == 'loading' && <img src={'carregando.svg'} />}
+          {status == 'loading' && <Image alt="img" src={'carregando.svg'} />}
 
           {session && !conta && !verificado &&
 
-            <img src={'carregando.svg'} />
+            <Image alt="img" src={'carregando.svg'}  />
           }
-
 
 
           {session &&
             <>
-
-
               {verificado &&
 
                 <>
@@ -147,9 +136,6 @@ export default function Home() {
               }}> {IconeGoogle}</button>
             </>
           }
-
-
-
         </div>
       </div>
 

@@ -16,14 +16,14 @@ export default function Layout(props) {
         if (cokie == 'false' || cokie == undefined) {
             router.push('/')
         }
-    }, [])
+    }, [ cokie])
 
     return (
         <div className={`
         flex
         flex-row
         heigue
-        ${dados.dark == 'dark' ? 'bg-gray-600 text-gray-100':false}
+        ${dados.dark == 'dark' ? 'bg-gray-600 text-gray-100' : false}
      
         `}>
             <Menu menu={menu} perfil={props.perfil} financas={props.financas} />
@@ -34,7 +34,7 @@ export default function Layout(props) {
             w-full sm:w-10/12
               
             lft
-            ${dados.dark == 'dark' ? 'bg-gray-500 text-gray-100':' bg-blue-100 text-gray-700'}
+            ${dados.dark == 'dark' ? 'bg-gray-500 text-gray-100' : ' bg-blue-100 text-gray-700'}
             
             `}>
                 <span className={`sm:hidden p-2 cursor-pointer absolute`} onClick={() => menu ? setMenu(false) : setMenu(true)}>{IconMenu}</span>

@@ -1,5 +1,5 @@
-import { createContext, useEffect, useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { createContext, useState } from "react";
+import { useSession } from "next-auth/react"
 import axios from "axios";
 
 const userContext = createContext({})

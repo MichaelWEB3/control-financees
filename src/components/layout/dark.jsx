@@ -1,21 +1,13 @@
-import { useState, useEffect } from "react"
-import { IconLogout, IconLua, IconLupa, IconMenu, IconSol } from "../icons"
-import Link from "next/link"
-import Cookies from "js-cookie"
+import {  useEffect } from "react"
+import {  IconLua, IconSol } from "../icons"
+
 import useDados from "../../dados/userHooke";
 
 export default function Dark(props) {
-
-    const [dark, setdark] = useState('')
     const dados = useDados()
     useEffect(() => {
-        
         console.log(dados.dark)
-    }, [])
-
-
-
-
+    }, [dados])
 
 
     return (
@@ -28,7 +20,6 @@ export default function Dark(props) {
                         dados.setarDark()
                     }
                 }}>{dados.dark == 'dark'? <span className="text-yellow-600">{IconSol}</span>:<span className="text-blue-800">{IconLua}</span> }</button>
-
             </div>
 
         </>

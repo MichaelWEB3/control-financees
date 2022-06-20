@@ -1,45 +1,36 @@
 import { useState, useEffect } from "react";
 import Layout from "../../components/layout";
 import useDados from "../../dados/userHooke";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import axios from "axios";
-import { GetServerSideProps } from "next";
-import { IconCash, IconCoracao, IconeCash } from "../../components/icons";
+import { IconCoracao, IconeCash } from "../../components/icons";
 import useSWR from 'swr'
 import api from "../../utils/api";
 import { Modal, Button, message } from 'antd';
-import { Tabs } from 'antd';
+import Image from "next/image";
 export default function Financas(props) {
-
     const { data, error } = useSWR(`http://localhost:3000/api/users/${props?.response?.email}`, api)
-
-    const { TabPane } = Tabs;
-
     const { data: session, status } = useSession()
     const [dadosOnline, setdadosOnline] = useState({})
     const dadosUsuario = useDados()
-
-
     const [enviar, setEnviar] = useState('')
     const [favorito, setFavorito] = useState(false)
     useEffect(() => {
         const date = dadosUsuario.sessao(session?.user.email)
         date.then(resp => {
-
             setdadosOnline(resp)
             resp?.favs?.map((fav) => {
                 console.log(props.response?._id)
                 console.log(fav.id)
+                console.log(status)
+                console.log(error)
                 if (fav.id == props.response?._id) {
-
                     setFavorito(true)
                 }
             })
-
         })
 
-
-    }, [dadosOnline])
+    }, [dadosOnline, session, dadosUsuario, favorito, props, status, error])
 
 
 
@@ -95,8 +86,8 @@ export default function Financas(props) {
         }).then(() => {
             alert("favoritado com sucesso")
             message.success('succes forever favorite');
-           
-            
+
+
         })
 
         const date = dadosUsuario.sessao(session?.user?.email)
@@ -126,10 +117,10 @@ export default function Financas(props) {
         <Layout perfil={false} financas={true}>
             <div className={`w-full h-96 m-5 heigue  ${dadosUsuario.dark == 'dark' ? 'bg-gray-400 text-gray-100' : ' bg-blue-50 text-gray-700'}   p-2 flex-col w  justify-center items-center   items-col rounded-3xl  `}>
                 <div className="flex flex-row m-5 p-5 justify-around items-center">
-                    <div> {props?.response?.photo ? <img className="rounded-full " src={`${props?.response?.photo}`} /> : <img className="rounded-full" src={'carregando.svg'} />}</div>
+                    <div> {props?.response?.photo ? <Image alt="img" className="rounded-full " src={`${props?.response?.photo}`} /> : <Image alt="img" className="rounded-full" src={'carregando.svg'} />}</div>
                     <div><span className="font-bold text-2xl ">{props.response?.nome}</span></div>
                     <div> <span className="font-bold text-xl ">{props.response?.idade}, anos</span></div>
-                    <div className={`${favorito && 'text-red-600' }  hover:text-red-600 cursor-pointer  ${dadosUsuario?.dark == 'dark' ? 'text-gray-700 ' : ' text-blue-300 '}`}  onClick={() => fav()}>{IconCoracao}</div>
+                    <div className={`${favorito && 'text-red-600'}  hover:text-red-600 cursor-pointer  ${dadosUsuario?.dark == 'dark' ? 'text-gray-700 ' : ' text-blue-300 '}`} onClick={() => fav()}>{IconCoracao}</div>
                 </div>
                 <div className="flex flex-col justify-center items-center p-5 m-5 ">
                     <span className="text-sm flex justify-between items-center w-20 "> {IconeCash} Balance  </span>
@@ -149,7 +140,7 @@ export default function Financas(props) {
                     >
                         <div className="flex flex-col">
                             <span className="text-red-700 text-sm ml-2">Deposite na carteira  de seu amigo </span>
-                           
+
                             <input type="number" className="w-1/2 border-1 border-solid bg-blue-200 border-black p-2 rounded-xl m-1" onChange={(e) => setEnviar(e.target.value)} placeholder="00,00"></input>
 
                         </div>
