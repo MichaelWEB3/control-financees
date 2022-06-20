@@ -4,7 +4,6 @@ import router from 'next/router'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Image from "next/image";
 
 
 export default function Home() {
@@ -61,7 +60,7 @@ export default function Home() {
         Cookies.remove('login')
       }
     }
-  }, [session, conta, verificado,session.user])
+  }, [session, conta, verificado])
 
   return (
     <>
@@ -74,7 +73,7 @@ export default function Home() {
           h-screen
          
       `}>
-          <Image alt="img" src={`https://source.unsplash.com/random`}/>
+          <img alt="img" src={`https://source.unsplash.com/random`}/>
         </div>
         <div className={`
         w-1/2  
@@ -82,11 +81,11 @@ export default function Home() {
         `}>
 
 
-          {status == 'loading' && <Image alt="img" src={'carregando.svg'} />}
+          {status == 'loading' && <img alt="img" src={'carregando.svg'} />}
 
           {session && !conta && !verificado &&
 
-            <Image alt="img" src={'carregando.svg'}  />
+            <img alt="img" src={'carregando.svg'}  />
           }
 
 

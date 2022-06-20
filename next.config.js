@@ -1,9 +1,6 @@
 module.exports = {
-  trailingSlash: true,
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')]
-  },
+  reactStrictMode: true,
   images: {
-    domains: ['lh3.googleusercontent.com', 'avatars.githubusercontent.com'],
+    domains: ["https://lh3.googleusercontent.com/a-/", "mongodb+srv://teste:8ycuZ5pFOYUxg6vv@cluster0.9uvho.mongodb.net/test"],
   },
 }
