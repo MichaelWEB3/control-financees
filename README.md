@@ -40,7 +40,11 @@ Inicie o servidor | start the server
 
 ## Screenshots
 
-![App Screenshot](https://github.com/MichaelWEB3/VendaLibery/blob/main/imagem_2023-04-04_234838118.png?raw=true)
+![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/sav1.PNG?raw=true)
+![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/1.png?raw=true)
+![App Screenshot](![image](https://user-images.githubusercontent.com/55338900/231772846-53d1cada-0ae7-46f4-8458-62088a3b989e.png))
+![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/Capturar.PNG?raw=true)
+![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/Capturar2.PNG?raw=true)
 
 
 ## Stack utilizada
