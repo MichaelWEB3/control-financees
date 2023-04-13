@@ -42,7 +42,7 @@ Inicie o servidor | start the server
 
 ![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/sav1.PNG?raw=true)
 ![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/1.png?raw=true)
-![App Screenshot](![image](https://user-images.githubusercontent.com/55338900/231772846-53d1cada-0ae7-46f4-8458-62088a3b989e.png))
+![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/Capturar1.PNG?raw=true)
 ![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/Capturar.PNG?raw=true)
 ![App Screenshot](https://github.com/MichaelWEB3/control-financees/blob/main/Capturar2.PNG?raw=true)
 
